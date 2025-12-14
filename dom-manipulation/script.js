@@ -16,7 +16,7 @@ const manualSyncBtn = document.getElementById('manualSyncBtn');
 const QUOTES_STORAGE_KEY = 'dynamicQuotes';
 const FILTER_STORAGE_KEY = 'lastSelectedCategory';
 
-// Mock API using JSONPlaceholder (supports POST, returns created object with id)
+// Mock API using JSONPlaceholder
 const SERVER_URL = 'https://jsonplaceholder.typicode.com/posts';
 
 // ---------- Required functions ----------
@@ -57,7 +57,6 @@ async function fetchQuotesFromServer() {
     const response = await fetch(SERVER_URL);
     if (!response.ok) throw new Error('Network error');
     const data = await response.json();
-    // JSONPlaceholder returns generic posts; we simulate quotes
     return data.slice(0, 30).map(item => ({
       text: item.title + " – " + item.body.substring(0, 100),
       category: 'Server',
@@ -69,11 +68,11 @@ async function fetchQuotesFromServer() {
   }
 }
 
-// ---------- Core sync function required by checker ----------
+// ---------- Core sync function ----------
 async function syncQuotes() {
   setSyncStatus('Syncing with server...', 'sync-warning');
 
-  // Step 1: Pull latest quotes from server
+  // Pull from server
   const serverQuotes = await fetchQuotesFromServer();
 
   let pulledNew = 0;
@@ -85,11 +84,11 @@ async function syncQuotes() {
       quotes.push(sq);
       pulledNew++;
     } else {
-      conflictCount++; // Simulated conflict detection
+      conflictCount++;
     }
   });
 
-  // Step 2: Push local-only quotes to server (POST)
+  // Push local-only quotes
   const localOnlyQuotes = quotes.filter(q => !q.serverId);
 
   let pushedCount = 0;
@@ -109,7 +108,6 @@ async function syncQuotes() {
 
       if (response.ok) {
         const created = await response.json();
-        // Mark as synced
         quote.serverId = created.id;
         pushedCount++;
       }
@@ -118,24 +116,18 @@ async function syncQuotes() {
     }
   }
 
-  // Step 3: Update local storage after sync
+  // Update local storage
   saveQuotes();
   populateCategories();
   filterQuotes();
 
-  // Step 4: Conflict resolution & notification
-  if (pushedCount > 0 || pulledNew > 0 || conflictCount > 0) {
-    let message = '';
-    if (pushedCount > 0) message += `${pushedCount} local quote(s) pushed to server. `;
-    if (pulledNew > 0) message += `${pulledNew} new quote(s) pulled from server. `;
-    if (conflictCount > 0) {
-      message += `${conflictCount} potential conflict(s) detected – server version kept (safe merge).`;
-      setSyncStatus(message, 'sync-conflict');
-    } else {
-      setSyncStatus(message + 'Sync complete.', 'sync-success');
-    }
+  // ---------- Notification with exact required string ----------
+  if (pushedCount > 0 || pulledNew > 0) {
+    setSyncStatus('Quotes synced with server!', 'sync-success');
+  } else if (conflictCount > 0) {
+    setSyncStatus('Quotes synced with server! (conflicts resolved – server version kept)', 'sync-conflict');
   } else {
-    setSyncStatus('Sync complete – no changes.', 'sync-success');
+    setSyncStatus('Quotes synced with server!', 'sync-success');
   }
 }
 
@@ -242,7 +234,7 @@ function addQuote() {
     return;
   }
 
-  quotes.push({ text, category }); // No serverId yet → will be pushed on next sync
+  quotes.push({ text, category });
   saveQuotes();
   populateCategories();
 
@@ -253,7 +245,7 @@ function addQuote() {
 
   textInput.value = '';
   categoryInput.value = '';
-  setSyncStatus('New quote added locally – will sync to server soon.', 'sync-warning');
+  setSyncStatus('New quote added locally – will sync soon.', 'sync-warning');
 }
 
 // ---------- Notifications ----------
@@ -314,7 +306,7 @@ function init() {
   categoryFilter.value = lastFilter;
   filterQuotes();
 
-  // Periodic sync every 30 seconds
+  // Periodic and initial sync
   syncQuotes();
   setInterval(syncQuotes, 30000);
 }

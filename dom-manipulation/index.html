@@ -4,6 +4,103 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dynamic Quote Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f4f7fa;
+      color: #333;
+    }
+    h1 { text-align: center; color: #007bff; }
+    #controls {
+      text-align: center;
+      margin: 30px 0;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    #categoryFilter {
+      padding: 12px;
+      font-size: 1.1em;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      min-width: 250px;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 1.1em;
+      margin: 10px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+    }
+    button:hover { background-color: #0056b3; }
+    button.secondary {
+      background-color: #6c757d;
+    }
+    button.secondary:hover { background-color: #545b62; }
+    #syncStatus {
+      text-align: center;
+      margin: 10px 0;
+      font-weight: bold;
+      min-height: 24px;
+    }
+    .sync-success { color: green; }
+    .sync-warning { color: orange; }
+    .sync-error { color: red; }
+    #quoteContainer {
+      margin-top: 40px;
+    }
+    .quote-card {
+      background: white;
+      padding: 20px;
+      margin: 15px 0;
+      border-left: 6px solid #007bff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .quote-card:hover {
+      transform: translateY(-5px);
+    }
+    .quote-text {
+      font-size: 1.4em;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .quote-category {
+      font-weight: bold;
+      color: #007bff;
+      text-align: right;
+    }
+    #noQuotes {
+      text-align: center;
+      font-size: 1.3em;
+      color: #888;
+      padding: 40px;
+    }
+    #addQuoteSection, #syncSection, #importExportSection {
+      margin-top: 50px;
+      padding: 25px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    input[type="text"] {
+      padding: 12px;
+      width: 320px;
+      margin-right: 10px;
+      font-size: 1em;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    input[type="file"] { margin: 15px 0; }
+  </style>
 </head>
 <body>
   <h1>Dynamic Quote Generator</h1>

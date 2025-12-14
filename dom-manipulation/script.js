@@ -17,7 +17,7 @@ const QUOTES_STORAGE_KEY = 'dynamicQuotes';
 const FILTER_STORAGE_KEY = 'lastSelectedCategory';
 
 // Server simulation
-const SERVER_URL = 'https://dummyjson.com/quotes?limit=50';
+const SERVER_URL = 'https://jsonplaceholder.typicode.com/posts?limit=50';
 
 // ---------- Required functions for checker ----------
 function createAddQuoteForm() {

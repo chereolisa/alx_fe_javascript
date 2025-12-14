@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Quote Generator</title>
+</head>
+<body>
+  <h1>Dynamic Quote Generator</h1>
+
+  <div id="controls">
+    <label for="categoryFilter"><strong>Filter by Category:</strong></label>
+    <select id="categoryFilter">
+      <option value="all">All Categories</option>
+    </select>
+    <button id="newQuote">Show Random Quote</button>
+  </div>
+
+  <div id="syncStatus"></div>
+
+  <div id="quoteContainer">
+    <!-- Quotes will be dynamically inserted here -->
+  </div>
+
+  <div id="addQuoteSection">
+    <h2>Add a New Quote</h2>
+    <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
+    <input id="newQuoteCategory" type="text" placeholder="Enter quote category (optional)" />
+    <button id="addQuoteBtn">Add Quote</button>
+  </div>
+
+  <div id="syncSection">
+    <h2>Server Sync</h2>
+    <p>Using <strong>DummyJSON Quotes API</strong> as simulated server (read-only, adds author field).</p>
+    <button id="manualSyncBtn">Manual Sync Now</button>
+    <button id="resolveLocalBtn" class="warning" style="display:none;">Keep Local (Resolve Conflict)</button>
+    <p><small>Auto-sync every 30 seconds.</small></p>
+  </div>
+
+  <div id="importExportSection">
+    <h2>Import & Export Quotes (Local Only)</h2>
+    <button id="exportBtn" class="secondary">Export Quotes as JSON</button>
+    <br>
+    <input type="file" id="importFile" accept=".json" />
+    <label for="importFile">Import Quotes from JSON file</label>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
